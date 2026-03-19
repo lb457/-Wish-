@@ -634,16 +634,21 @@ body {
 <nav class="nav-dots" id="navDots"></nav>
 
 <!-- AUDIO ELEMENTS -->
+<!-- Sec 2: Birthday Song — Baar Baar Din Yeh Aaye -->
 <audio id="song1" loop>
-  <!-- Birthday / celebration music - user should replace src -->
-  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  <source src="https://raw.githubusercontent.com/lb457/-Wish-/main/Baar%20Baar%20Din%20Yeh%20Aaye%20%20no%20names%20without%20Sunita%20%20Happy%20Birthday%20%20Sonu%20Nigam%20Shifa%20Asgarali%20-%20Shifa%20Asgarali%20(youtube).mp3" type="audio/mpeg">
 </audio>
+<!-- Sec 3: Desi Girl -->
 <audio id="song2" loop>
-  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
+  <source src="https://raw.githubusercontent.com/lb457/-Wish-/main/W.i.S.H.%20-%20Desi%20Girl%20(Music%20Video)%20-%20W.i.S.H.%20(youtube).mp3" type="audio/mpeg">
 </audio>
+<!-- Sec 4: Bairan -->
 <audio id="song3" loop>
-  <!-- Raanjhanaa - user should replace with actual file -->
-  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" type="audio/mpeg">
+  <source src="https://raw.githubusercontent.com/lb457/-Wish-/main/Bairan%20%E2%80%93%20Animated%20Love%20Story%20%20Banjaare%20(Official%20Video)%20-%20Banjaare%20(youtube).mp3" type="audio/mpeg">
+</audio>
+<!-- Sec 5: Raanjhanaa -->
+<audio id="song4" loop>
+  <source src="https://raw.githubusercontent.com/lb457/-Wish-/main/Raanjhanaa%20-%20Lyrical%20Video%20%20Dhanush%2C%20Sonam%20Kapoor%20%20A.%20R.%20Rahman%20%20Jaswinder%20Singh%20%26%20Shiraz%20Uppal%20-%20SonyMusicIndiaVEVO%20(youtube).mp3" type="audio/mpeg">
 </audio>
 
 <!-- ============ SECTION 1 ============ -->
@@ -1007,12 +1012,12 @@ const dots = () => document.querySelectorAll('.ndot');
 const musicStatus = document.getElementById('music-status');
 const musicTitle = document.getElementById('music-title');
 const songs = {
-  sec2: { el: document.getElementById('song1'), title: '♫ Happy Birthday to You' },
-  sec3: { el: document.getElementById('song2'), title: '♫ Beautiful — for you' },
-  sec4: { el: document.getElementById('song3'), title: '♫ Raanjhanaa' },
-  sec5: { el: document.getElementById('song3'), title: '♫ Raanjhanaa (softly)' },
-  sec6: { el: document.getElementById('song2'), title: '♫ Tere Vaaste' },
-  sec7: { el: document.getElementById('song1'), title: '♫ Perfect — Ed Sheeran' },
+  sec2: { el: document.getElementById('song1'), title: '♫ Baar Baar Din Yeh Aaye' },
+  sec3: { el: document.getElementById('song2'), title: '♫ Desi Girl' },
+  sec4: { el: document.getElementById('song3'), title: '♫ Bairan' },
+  sec5: { el: document.getElementById('song4'), title: '♫ Raanjhanaa' },
+  sec6: { el: document.getElementById('song4'), title: '♫ Raanjhanaa' },
+  sec7: { el: document.getElementById('song1'), title: '♫ Baar Baar Din Yeh Aaye' },
 };
 let currentAudio = null;
 
