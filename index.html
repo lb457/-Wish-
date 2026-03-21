@@ -14,67 +14,72 @@ body { background:var(--night); color:#fff; font-family:'Crimson Pro',serif; ove
 .cursor { position:fixed; width:12px; height:12px; background:var(--rose); border-radius:50%; pointer-events:none; z-index:10000; transform:translate(-50%,-50%); mix-blend-mode:screen; }
 .cursor-trail { position:fixed; width:30px; height:30px; border:1px solid rgba(232,160,180,0.4); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:all 0.15s ease; }
 
+/* ===== SPLASH SCREEN — autoplay fix ===== */
+#splash {
+  position:fixed; inset:0; z-index:99999;
+  background:radial-gradient(ellipse at 50% 40%, #3d0a3e 0%, #0d0510 70%);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; padding:24px;
+  transition:opacity 0.8s ease;
+}
+#splash.hide { opacity:0; pointer-events:none; }
+.splash-floats { font-size:44px; letter-spacing:10px; margin-bottom:30px; animation:splashBounce 2s ease-in-out infinite; }
+@keyframes splashBounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+.splash-label { font-size:12px; letter-spacing:5px; text-transform:uppercase; color:rgba(232,160,180,0.6); margin-bottom:12px; }
+.splash-title { font-family:'Cormorant Garamond',serif; font-size:clamp(30px,7vw,58px); font-weight:300; color:#fff; line-height:1.2; margin-bottom:8px; }
+.splash-name { font-family:'Dancing Script',cursive; font-size:clamp(42px,9vw,82px); background:linear-gradient(135deg,#f5d0dd,#e8a0b4,#d4a853,#e8a0b4); background-size:300% auto; -webkit-background-clip:text; -webkit-text-fill-color:transparent; animation:nameShimmer 4s linear infinite; display:block; margin-bottom:36px; }
+@keyframes nameShimmer { 0%{background-position:0%} 100%{background-position:300%} }
+.splash-btn {
+  padding:18px 56px; border-radius:60px;
+  background:linear-gradient(135deg,#c2607a,#9b3e6a);
+  color:#fff; font-size:17px; letter-spacing:3px; text-transform:uppercase;
+  cursor:pointer; border:none; font-family:'Crimson Pro',serif;
+  box-shadow:0 0 40px rgba(194,96,122,0.7), 0 0 80px rgba(194,96,122,0.3);
+  animation:btnGlow 2s ease-in-out infinite;
+  transition:transform 0.2s;
+}
+.splash-btn:hover { transform:scale(1.06); }
+.splash-btn:active { transform:scale(0.97); }
+@keyframes btnGlow {
+  0%,100%{box-shadow:0 0 40px rgba(194,96,122,0.7),0 0 80px rgba(194,96,122,0.3)}
+  50%{box-shadow:0 0 60px rgba(194,96,122,1),0 0 120px rgba(194,96,122,0.6)}
+}
+.splash-note { margin-top:18px; font-size:12px; color:rgba(255,255,255,0.3); letter-spacing:2px; }
+
 .section { min-height:100vh; width:100%; position:relative; overflow:hidden; scroll-snap-align:start; display:flex; align-items:center; justify-content:center; flex-direction:column; }
 
-/* ===== SEC 1 ===== */
+/* SEC 1 */
 #sec1 { background:radial-gradient(ellipse at 50% 40%,#2d0a2e 0%,#0d0510 70%); }
 #starfield { position:absolute; inset:0; z-index:0; }
-
 .sec1-hint { position:absolute; bottom:54px; left:50%; transform:translateX(-50%); text-align:center; opacity:0; animation:fadeIn 2s ease 3s forwards; z-index:2; }
 .sec1-hint p { font-size:12px; letter-spacing:4px; text-transform:uppercase; color:rgba(232,160,180,0.5); }
 .sec1-hint .arrow { margin-top:8px; animation:bounce 2s infinite; font-size:20px; color:var(--rose); }
 @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
 @keyframes fadeIn { to{opacity:1} }
 
-/* FLOAT ITEMS — rise from bottom with wobble, NOT static */
-.float-item {
-  position:absolute;
-  bottom:-80px;
-  user-select:none; pointer-events:none; z-index:1;
-  filter:drop-shadow(0 0 10px rgba(232,160,180,0.5));
-}
-@keyframes riseUp {
-  0%   { bottom:-80px; opacity:0; }
-  6%   { opacity:1; }
-  90%  { opacity:0.75; }
-  100% { bottom:115vh; opacity:0; }
-}
-@keyframes sideWobble {
-  0%,100% { transform:translateX(0) rotate(-9deg) scale(1); }
-  25%     { transform:translateX(20px) rotate(7deg) scale(1.09); }
-  50%     { transform:translateX(-15px) rotate(-5deg) scale(0.95); }
-  75%     { transform:translateX(12px) rotate(8deg) scale(1.05); }
-}
+.float-item { position:absolute; bottom:-80px; user-select:none; pointer-events:none; z-index:1; filter:drop-shadow(0 0 10px rgba(232,160,180,0.5)); }
+@keyframes riseUp { 0%{bottom:-80px;opacity:0} 6%{opacity:1} 90%{opacity:0.75} 100%{bottom:115vh;opacity:0} }
+@keyframes sideWobble { 0%,100%{transform:translateX(0) rotate(-9deg) scale(1)} 25%{transform:translateX(20px) rotate(7deg) scale(1.09)} 50%{transform:translateX(-15px) rotate(-5deg) scale(0.95)} 75%{transform:translateX(12px) rotate(8deg) scale(1.05)} }
 
-/* ===== SEC 2 ===== */
+/* SEC 2 */
 #sec2 { background:radial-gradient(ellipse at 30% 50%,#3d1052 0%,#1a0d2e 50%,#0a060f 100%); text-align:center; padding:40px 24px; }
-
 .petal { position:absolute; pointer-events:none; z-index:1; }
-@keyframes petalFloat {
-  0%   { transform:translateY(-20px) rotate(0deg) translateX(0); opacity:0; }
-  8%   { opacity:0.9; }
-  45%  { transform:translateY(45vh) rotate(160deg) translateX(26px); opacity:0.7; }
-  75%  { transform:translateY(80vh) rotate(280deg) translateX(-18px); opacity:0.35; }
-  100% { transform:translateY(115vh) rotate(400deg) translateX(8px); opacity:0; }
-}
-
+@keyframes petalFloat { 0%{transform:translateY(-20px) rotate(0deg) translateX(0);opacity:0} 8%{opacity:0.9} 45%{transform:translateY(45vh) rotate(160deg) translateX(26px);opacity:0.7} 75%{transform:translateY(80vh) rotate(280deg) translateX(-18px);opacity:0.35} 100%{transform:translateY(115vh) rotate(400deg) translateX(8px);opacity:0} }
 .birthday-ring { width:150px; height:150px; border-radius:50%; border:2px solid rgba(232,160,180,0.5); display:flex; align-items:center; justify-content:center; margin:0 auto 30px; position:relative; opacity:0; animation:ringAppear 1.5s ease forwards; }
 .birthday-ring::before { content:''; position:absolute; inset:-12px; border-radius:50%; border:1px solid rgba(232,160,180,0.2); animation:ringPulse 3s ease-in-out infinite; }
 .birthday-ring::after { content:''; position:absolute; inset:-24px; border-radius:50%; border:1px solid rgba(232,160,180,0.08); animation:ringPulse 3s ease-in-out infinite 0.5s; }
 @keyframes ringAppear { 0%{opacity:0;transform:scale(0.5)} 100%{opacity:1;transform:scale(1)} }
 @keyframes ringPulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.06);opacity:0.5} }
 .ring-initial { font-family:'Dancing Script',cursive; font-size:52px; color:var(--rose); line-height:1; }
-
 .sec2-label { font-size:12px; letter-spacing:6px; text-transform:uppercase; color:rgba(232,160,180,0.6); margin-bottom:12px; opacity:0; animation:slideUp 1s ease 0.5s forwards; }
 .sec2-title { font-family:'Cormorant Garamond',serif; font-size:clamp(52px,10vw,100px); line-height:1; font-weight:300; color:#fff; opacity:0; animation:slideUp 1s ease 0.8s forwards; margin-bottom:6px; }
 .sec2-name { font-family:'Dancing Script',cursive; font-size:clamp(46px,9vw,88px); background:linear-gradient(135deg,#f5d0dd,#e8a0b4,#d4a853,#e8a0b4); background-size:300% auto; -webkit-background-clip:text; -webkit-text-fill-color:transparent; animation:nameShimmer 4s linear infinite, slideUp 1s ease 1.1s both; display:block; }
-@keyframes nameShimmer { 0%{background-position:0%} 100%{background-position:300%} }
 @keyframes slideUp { 0%{opacity:0;transform:translateY(26px)} 100%{opacity:1;transform:translateY(0)} }
 .sec2-wish { font-size:clamp(15px,2.4vw,20px); color:rgba(255,255,255,0.72); font-style:italic; margin-top:20px; max-width:500px; line-height:1.9; opacity:0; animation:slideUp 1s ease 1.5s forwards; }
 .sec2-date { margin-top:22px; font-size:13px; letter-spacing:5px; color:rgba(212,168,83,0.7); opacity:0; animation:slideUp 1s ease 1.8s forwards; }
 .sec2-music-note { position:absolute; bottom:24px; left:50%; transform:translateX(-50%); font-size:12px; letter-spacing:3px; color:rgba(255,255,255,0.3); animation:fadeIn 1s ease 2.5s both; white-space:nowrap; }
 
-/* ===== SEC 3 ===== */
+/* SEC 3 */
 #sec3 { background:radial-gradient(ellipse at 70% 30%,#2a0a3a 0%,#0f0720 100%); text-align:center; padding:60px 24px; }
 .flower-grid { display:flex; gap:18px; justify-content:center; margin-bottom:34px; flex-wrap:wrap; }
 .flower-item { font-size:42px; animation:flowerSway 2.8s ease-in-out infinite; filter:drop-shadow(0 0 12px rgba(232,160,180,0.8)); }
@@ -83,24 +88,20 @@ body { background:var(--night); color:#fff; font-family:'Crimson Pro',serif; ove
 .sec3-cards { display:flex; gap:18px; flex-wrap:wrap; justify-content:center; max-width:800px; width:100%; }
 .beauty-card { flex:1; min-width:200px; max-width:240px; background:rgba(255,255,255,0.04); border:1px solid rgba(232,160,180,0.2); border-radius:20px; padding:26px 20px; text-align:center; transition:transform 0.3s,border-color 0.3s; }
 .beauty-card:hover { transform:translateY(-8px); border-color:rgba(232,160,180,0.5); }
-.bc-icon { font-size:30px; margin-bottom:12px; } .bc-title { font-family:'Cormorant Garamond',serif; font-size:19px; color:var(--rose); margin-bottom:9px; font-style:italic; }
+.bc-icon { font-size:30px; margin-bottom:12px; }
+.bc-title { font-family:'Cormorant Garamond',serif; font-size:19px; color:var(--rose); margin-bottom:9px; font-style:italic; }
 .bc-text { font-size:13.5px; line-height:1.85; color:rgba(255,255,255,0.62); }
 
-/* ===== SEC 4 — JOURNEY ===== */
-#sec4 { background:radial-gradient(ellipse at 20% 60%,#1e0a2e 0%,#080412 100%); text-align:center; padding:60px 24px 80px; align-items:flex-start; overflow-y:auto; scroll-snap-align:start; }
+/* SEC 4 */
+#sec4 { background:radial-gradient(ellipse at 20% 60%,#1e0a2e 0%,#080412 100%); text-align:center; padding:60px 24px 80px; align-items:flex-start; overflow-y:auto; scroll-snap-align:start; scroll-snap-stop:always; -webkit-overflow-scrolling:touch; }
 #sec4>* { flex-shrink:0; }
-
 .journey-song-tag { display:inline-flex; align-items:center; gap:8px; background:rgba(232,160,180,0.1); border:1px solid rgba(232,160,180,0.3); border-radius:40px; padding:7px 18px; font-size:13px; color:var(--rose); letter-spacing:1px; margin-bottom:28px; }
 .journey-song-tag .note { animation:noteFloat 1.4s ease-in-out infinite; display:inline-block; }
 @keyframes noteFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
-
 .journey-line { display:flex; flex-direction:column; align-items:center; max-width:640px; width:100%; }
-
-/* Each journey node slides in from left AND its dot flaps */
 .journey-node { display:flex; align-items:flex-start; gap:20px; text-align:left; padding-bottom:30px; width:100%; opacity:0; transform:translateX(-28px); transition:opacity 0.65s ease, transform 0.65s ease; }
 .journey-node.visible { opacity:1; transform:translateX(0); }
 .journey-node:last-child { padding-bottom:0; }
-
 .journey-dot-col { display:flex; flex-direction:column; align-items:center; flex-shrink:0; width:36px; }
 .journey-dot { width:36px; height:36px; border-radius:50%; background:rgba(232,160,180,0.15); border:2px solid var(--rose); display:flex; align-items:center; justify-content:center; font-size:16px; box-shadow:0 0 16px rgba(232,160,180,0.3); animation:dotFlap 2.2s ease-in-out infinite; }
 @keyframes dotFlap { 0%,100%{transform:rotate(-7deg) scale(1)} 50%{transform:rotate(7deg) scale(1.12)} }
@@ -111,7 +112,7 @@ body { background:var(--night); color:#fff; font-family:'Crimson Pro',serif; ove
 .journey-title { font-family:'Cormorant Garamond',serif; font-size:19px; color:#fff; margin-bottom:5px; font-style:italic; }
 .journey-desc { font-size:13.5px; color:rgba(255,255,255,0.62); line-height:1.75; }
 
-/* ===== SEC 5 — SHAYARI ===== */
+/* SEC 5 */
 #sec5 { background:radial-gradient(ellipse at 60% 40%,#1e0a28 0%,#08030e 100%); text-align:center; padding:60px 24px; }
 .shayari-container { max-width:620px; width:100%; }
 .shayari-card { background:rgba(255,255,255,0.035); border:1px solid rgba(232,160,180,0.18); border-radius:22px; padding:34px 30px; margin-bottom:18px; position:relative; overflow:hidden; }
@@ -119,15 +120,11 @@ body { background:var(--night); color:#fff; font-family:'Crimson Pro',serif; ove
 .shayari-text { font-family:'Cormorant Garamond',serif; font-size:clamp(16px,2.7vw,23px); font-style:italic; line-height:2.1; color:rgba(255,255,255,0.88); }
 .shayari-text span { color:var(--rose); font-style:normal; font-weight:600; }
 .shayari-source { margin-top:13px; font-size:13px; color:rgba(212,168,83,0.7); letter-spacing:2px; }
-.convince-box { margin-top:22px; background:rgba(232,160,180,0.06); border:1px solid rgba(232,160,180,0.25); border-radius:20px; padding:30px; }
-.convince-text { font-family:'Cormorant Garamond',serif; font-size:clamp(14px,2.3vw,20px); font-style:italic; line-height:2; color:rgba(255,255,255,0.82); }
-.convince-sign { margin-top:16px; font-family:'Dancing Script',cursive; font-size:26px; color:var(--rose); }
 
-/* ===== SEC 6 — FINALE ===== */
+/* SEC 6 */
 #sec6 { background:#030106; text-align:center; padding:60px 24px; position:relative; }
 .universe-canvas { position:absolute; inset:0; z-index:0; }
 .finale-content { position:relative; z-index:2; max-width:600px; }
-
 .letter-envelope { width:130px; height:94px; margin:0 auto 10px; position:relative; cursor:pointer; animation:envFloat 4s ease-in-out infinite; }
 @keyframes envFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
 .envelope-body { width:130px; height:94px; background:linear-gradient(135deg,#3d1055,#5c2060); border-radius:8px; border:1px solid rgba(232,160,180,0.4); position:relative; overflow:hidden; }
@@ -137,12 +134,10 @@ body { background:var(--night); color:#fff; font-family:'Crimson Pro',serif; ove
 .letter-envelope.open .envelope-flap { transform:rotateX(-180deg); }
 .letter-envelope.open .envelope-seal { opacity:0; }
 .letter-envelope.open .envelope-inside { opacity:1; }
-
 .envelope-letter { max-width:460px; margin:16px auto 0; background:rgba(255,255,255,0.04); border:1px solid rgba(232,160,180,0.2); border-radius:18px; padding:26px 22px; opacity:0; transform:translateY(18px); transition:opacity 0.7s 0.4s ease, transform 0.7s 0.4s ease; }
 .envelope-letter.show { opacity:1; transform:translateY(0); }
 .envelope-letter p { font-family:'Cormorant Garamond',serif; font-size:clamp(13px,1.9vw,17px); font-style:italic; line-height:2; color:rgba(255,255,255,0.85); }
 .letter-sign { margin-top:13px; font-family:'Dancing Script',cursive; font-size:24px; color:var(--rose); }
-
 .finale-title { font-family:'Cormorant Garamond',serif; font-size:clamp(32px,6vw,62px); font-weight:300; line-height:1.2; color:#fff; margin:26px 0 12px; text-shadow:0 0 60px rgba(232,160,180,0.3); }
 .finale-title em { color:var(--rose); font-style:italic; }
 .finale-count { display:flex; gap:18px; justify-content:center; margin:18px 0; flex-wrap:wrap; }
@@ -151,8 +146,7 @@ body { background:var(--night); color:#fff; font-family:'Crimson Pro',serif; ove
 .count-label { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-top:4px; }
 .finale-poem { font-family:'Cormorant Garamond',serif; font-size:clamp(14px,2.3vw,19px); font-style:italic; line-height:2.2; color:rgba(255,255,255,0.8); margin:18px 0; }
 .wishing-btn { display:inline-block; margin-top:18px; padding:13px 42px; border-radius:50px; background:linear-gradient(135deg,#c2607a,#9b3e6a); color:#fff; font-size:14px; letter-spacing:2px; text-transform:uppercase; cursor:pointer; border:none; font-family:'Crimson Pro',serif; box-shadow:0 8px 32px rgba(194,96,122,0.4); transition:all 0.3s; }
-.wishing-btn:hover { transform:scale(1.05); box-shadow:0 12px 40px rgba(194,96,122,0.6); }
-
+.wishing-btn:hover { transform:scale(1.05); }
 .confetti-piece { position:fixed; pointer-events:none; z-index:9998; border-radius:2px; animation:confettiFall ease-in forwards; }
 @keyframes confettiFall { 0%{transform:translateY(0) rotate(0deg);opacity:1} 100%{transform:translateY(105vh) rotate(720deg);opacity:0} }
 
@@ -167,20 +161,146 @@ body { background:var(--night); color:#fff; font-family:'Crimson Pro',serif; ove
 .ndot { width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,0.2); cursor:pointer; transition:all 0.3s; border:1px solid transparent; }
 .ndot.active { background:var(--rose); border-color:rgba(232,160,180,0.5); transform:scale(1.4); }
 
-@media(max-width:600px){ .sec3-cards{flex-direction:column;align-items:center} .beauty-card{max-width:100%} .finale-count{gap:10px} .count-item{padding:12px 14px;min-width:72px} }
+/* ===== MOBILE RESPONSIVE ===== */
+@media(max-width:768px){
+
+  /* Hide desktop cursor on mobile */
+  .cursor, .cursor-trail { display:none; }
+  body { cursor:auto; }
+
+  /* Splash */
+  .splash-floats { font-size:32px; letter-spacing:6px; margin-bottom:20px; }
+  .splash-btn { padding:16px 36px; font-size:15px; letter-spacing:2px; width:80%; max-width:280px; }
+  .splash-note { font-size:11px; }
+
+  /* Nav dots — move to bottom on mobile */
+  .nav-dots {
+    right:auto; top:auto;
+    bottom:16px; left:50%; transform:translateX(-50%);
+    flex-direction:row; gap:10px;
+  }
+
+  /* Music pill — full width safe */
+  #music-status { font-size:11px; padding:6px 14px; max-width:90vw; }
+
+  /* All sections — safe padding */
+  .section { padding:20px 16px; min-height:100svh; }
+
+  /* SEC 1 */
+  .sec1-hint { bottom:70px; }
+  .sec1-hint p { font-size:10px; letter-spacing:3px; }
+
+  /* Float items — smaller on mobile */
+  .float-item { font-size:20px !important; }
+
+  /* SEC 2 */
+  #sec2 { padding:32px 20px 80px; justify-content:center; }
+  .birthday-ring { width:110px; height:110px; margin-bottom:22px; }
+  .ring-initial { font-size:38px; }
+  .birthday-ring::before { inset:-8px; }
+  .birthday-ring::after { inset:-16px; }
+  .sec2-label { font-size:10px; letter-spacing:4px; }
+  .sec2-title { font-size:clamp(40px,12vw,64px); }
+  .sec2-name { font-size:clamp(38px,12vw,62px); }
+  .sec2-wish { font-size:15px; margin-top:14px; padding:0 4px; }
+  .sec2-date { font-size:11px; letter-spacing:3px; margin-top:16px; }
+  .sec2-music-note { font-size:10px; letter-spacing:2px; bottom:80px; white-space:normal; text-align:center; width:90%; }
+
+  /* SEC 3 */
+  #sec3 { padding:40px 16px; }
+  .flower-grid { gap:12px; margin-bottom:24px; }
+  .flower-item { font-size:32px !important; }
+  .flower-item:nth-child(2){ font-size:36px !important; }
+  .flower-item:nth-child(4){ font-size:34px !important; }
+  .sec3-cards { flex-direction:column; align-items:center; gap:14px; }
+  .beauty-card { max-width:100%; width:100%; padding:20px 18px; }
+  .bc-icon { font-size:26px; margin-bottom:8px; }
+  .bc-title { font-size:17px; }
+  .bc-text { font-size:13px; }
+
+  /* SEC 4 journey */
+  #sec4 { padding:32px 16px 80px; }
+  .journey-song-tag { font-size:11px; padding:6px 14px; margin-bottom:18px; }
+  .journey-line { max-width:100%; }
+  .journey-node { gap:14px; padding-bottom:22px; }
+  .journey-dot { width:30px; height:30px; font-size:13px; }
+  .journey-dot-col { width:30px; }
+  .journey-line-seg { min-height:22px; }
+  .journey-year { font-size:10px; letter-spacing:2px; }
+  .journey-title { font-size:16px; }
+  .journey-desc { font-size:13px; line-height:1.7; }
+
+  /* SEC 5 shayari */
+  #sec5 { padding:40px 16px; }
+  .shayari-container { max-width:100%; }
+  .shayari-card { padding:24px 20px; }
+  .shayari-text { font-size:clamp(15px,4vw,20px); line-height:2; }
+  .shayari-source { font-size:12px; }
+  .convince-box { padding:22px 18px; }
+  .convince-text { font-size:14px; }
+  .convince-sign { font-size:22px; }
+
+  /* SEC 6 finale */
+  #sec6 { padding:40px 16px 80px; }
+  .finale-content { max-width:100%; }
+  .letter-envelope { width:110px; height:80px; }
+  .envelope-body { width:110px; height:80px; }
+  .envelope-flap { border-left-width:55px; border-right-width:55px; border-top-width:40px; }
+  .envelope-inside { font-size:24px; }
+  .envelope-seal { width:20px; height:20px; font-size:11px; }
+  .envelope-letter { padding:20px 16px; }
+  .envelope-letter p { font-size:14px; line-height:1.85; }
+  .letter-sign { font-size:20px; }
+  .finale-title { font-size:clamp(26px,7vw,44px); margin:20px 0 10px; }
+  .finale-count { gap:10px; margin:14px 0; }
+  .count-item { padding:12px 16px; min-width:76px; }
+  .count-num { font-size:30px; }
+  .count-label { font-size:9px; letter-spacing:1px; }
+  .finale-poem { font-size:14px; line-height:2; margin:14px 0; }
+  .wishing-btn { padding:12px 32px; font-size:13px; letter-spacing:1px; width:80%; max-width:280px; }
+}
+
+/* Very small screens */
+@media(max-width:380px){
+  .splash-name { font-size:clamp(34px,10vw,52px); }
+  .sec2-title { font-size:clamp(36px,11vw,54px); }
+  .sec2-name { font-size:clamp(34px,11vw,52px); }
+  .birthday-ring { width:90px; height:90px; }
+  .ring-initial { font-size:30px; }
+  .journey-title { font-size:15px; }
+  .journey-desc { font-size:12px; }
+  .shayari-text { font-size:14px; }
+  .finale-title { font-size:clamp(22px,7vw,36px); }
+}
 </style>
 </head>
 <body>
 
 <div class="cursor" id="cursor"></div>
 <div class="cursor-trail" id="cursorTrail"></div>
-<div id="music-status"><div class="music-bars"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div><span id="music-title">♫ Playing...</span></div>
+
+<!-- ===== SPLASH SCREEN — ek baar click = music shuru ===== -->
+<div id="splash">
+  <div class="splash-floats">🌹💕🌸</div>
+  <p class="splash-label">Sirf tumhare liye ✦ 22 March</p>
+  <h1 class="splash-title">Ek Khaas Birthday Surprise</h1>
+  <span class="splash-name">Sejal</span>
+  <button class="splash-btn" onclick="startExperience()">🎵 Open Karo</button>
+  <p class="splash-note">tap karte hi music shuru ho jayega</p>
+</div>
+
+<div id="music-status">
+  <div class="music-bars"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
+  <span id="music-title">♫ Playing...</span>
+</div>
 <nav class="nav-dots" id="navDots"></nav>
-  
+
+<!-- AUDIO -->
 <audio id="song1" loop><source src="https://raw.githubusercontent.com/lb457/-Wish-/main/Ed%20Sheeran%20-%20Sapphire%20(Official%20Music%20Video)%20-%20Ed%20Sheeran%20(youtube).mp3" type="audio/mpeg"></audio>
 <audio id="song2" loop><source src="https://raw.githubusercontent.com/lb457/-Wish-/main/W.i.S.H.%20-%20Desi%20Girl%20(Music%20Video)%20-%20W.i.S.H.%20(youtube).mp3" type="audio/mpeg"></audio>
 <audio id="song3" loop><source src="https://raw.githubusercontent.com/lb457/-Wish-/main/Bairan%20%E2%80%93%20Animated%20Love%20Story%20%20Banjaare%20(Official%20Video)%20-%20Banjaare%20(youtube).mp3" type="audio/mpeg"></audio>
 <audio id="song4" loop><source src="https://raw.githubusercontent.com/lb457/-Wish-/main/A.R.%20Rahman%20-%20Tum%20Tak%20(Lyric%20Video)%20%20Raanjhanaa.mp3" type="audio/mpeg"></audio>
+
 <!-- SEC 1 -->
 <section class="section" id="sec1">
   <canvas id="starfield"></canvas>
@@ -188,25 +308,22 @@ body { background:var(--night); color:#fff; font-family:'Crimson Pro',serif; ove
   <div class="sec1-hint"><p>neeche scroll karo</p><div class="arrow">↓</div></div>
 </section>
 
-<!-- SEC 2 — BIRTHDAY -->
+<!-- SEC 2 -->
 <section class="section" id="sec2">
-  <p class="sec2-music-note">♫ A birthday song plays just for you</p>
+  <p class="sec2-music-note">♫ Ed Sheeran baj raha hai sirf tumhare liye</p>
   <div id="petals-container"></div>
-  <div class="birthday-ring">
-    <span class="ring-initial">S</span>
-  </div>
+  <div class="birthday-ring"><span class="ring-initial">S</span></div>
   <p class="sec2-label">Wish you happy</p>
   <h1 class="sec2-title">Happy Birthday</h1>
   <span class="sec2-name">Sejal</span>
   <p class="sec2-wish">
-    On this beautiful day the world became  more magical<br>
+    On this beautiful day the world became more magical<br>
     because <em>you</em> arrived in it. May God always be with you and provide you with those valuable things in your life, joy, love, happiness, and healthy living. Happy birthday! 🌸
   </p>
   <p class="sec2-date">✦ 22 March ✦ A Day to Celebrate You ✦</p>
-  
 </section>
 
-<!-- SEC 3 — BEAUTY -->
+<!-- SEC 3 -->
 <section class="section" id="sec3">
   <span style="font-size:12px;letter-spacing:5px;text-transform:uppercase;color:rgba(232,160,180,0.6);margin-bottom:20px;">tum bahut khoobsurat ho</span>
   <div class="flower-grid">
@@ -224,15 +341,14 @@ body { background:var(--night); color:#fff; font-family:'Crimson Pro',serif; ove
   </div>
 </section>
 
-<!-- SEC 4 — JOURNEY Hinglish + flapping -->
+<!-- SEC 4 -->
 <section class="section" id="sec4">
   <span style="font-size:12px;letter-spacing:5px;text-transform:uppercase;color:rgba(232,160,180,0.6);margin-bottom:10px;">Bairan dheere se baj raha hai...</span>
   <div class="journey-song-tag"><span class="note">♫</span><span>Bairan — Hamari Kahani ke Notes Mein</span></div>
   <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(24px,4.5vw,42px);font-weight:300;margin-bottom:34px;font-style:italic;text-align:center;">
-    29 March 2024 — <em style="color:var(--rose)">How we Meet </em>
+    29 March 2024 — <em style="color:var(--rose)">How we Meet</em>
   </h2>
   <div class="journey-line" id="journeyLine">
-
     <div class="journey-node">
       <div class="journey-dot-col"><div class="journey-dot">🚌</div><div class="journey-line-seg"></div></div>
       <div class="journey-content">
@@ -241,7 +357,6 @@ body { background:var(--night); color:#fff; font-family:'Crimson Pro',serif; ove
         <p class="journey-desc">Dono apne-apne ghar se wapas aa rahe the — ajnabi, ek hi raaste par. Stop 70 par aankhein mili. Bas ek pal. Par uss ek pal ne dil mein kuch alag sa kar diya.</p>
       </div>
     </div>
-
     <div class="journey-node">
       <div class="journey-dot-col"><div class="journey-dot">🪑</div><div class="journey-line-seg"></div></div>
       <div class="journey-content">
@@ -250,56 +365,47 @@ body { background:var(--night); color:#fff; font-family:'Crimson Pro',serif; ove
         <p class="journey-desc">Tum apni jagah se uthke mere side mein aa ke baith gayi. Tumhare paas aane se hi ek ajeeb si shanti mili — ek warm energy jo pehle kabhi feel nahi ki thi. Jaise kuch sahi ho gaya ho.</p>
       </div>
     </div>
-
     <div class="journey-node">
       <div class="journey-dot-col"><div class="journey-dot">💬</div><div class="journey-line-seg"></div></div>
       <div class="journey-content">
-        <div class="journey-year">Bus ka Saffar </div>
-        <div class="journey-title">Baat Hone start huaa </div>
+        <div class="journey-year">Bus ka Safar</div>
+        <div class="journey-title">Baat Hone Start Hui</div>
         <p class="journey-desc">Itni baatein hui ki 2-3 ghante mein naam bhi nahi poochha ek dusre ka! Waqt khatam hi nahi hona chahta tha. Jaipur paas aane laga to andar kuch bura lagne laga — kyunki tum jaane wali thi.</p>
       </div>
     </div>
-
     <div class="journey-node">
       <div class="journey-dot-col"><div class="journey-dot">📱</div><div class="journey-line-seg"></div></div>
       <div class="journey-content">
         <div class="journey-year">Last Moment</div>
-        <div class="journey-title">Tumne Snap ID Manga tha — Tab Naam Pata Chala</div>
-        <p class="journey-desc">Aakhir mein tumne chat ID manga aur tab pehli baar naam jaana. </p>
+        <div class="journey-title">Tumne Snap ID Manga — Tab Naam Pata Chala</div>
+        <p class="journey-desc">Aakhir mein tumne chat ID manga aur tab pehli baar naam jaana.</p>
       </div>
     </div>
-
     <div class="journey-node">
       <div class="journey-dot-col"><div class="journey-dot">🌸</div><div class="journey-line-seg"></div></div>
       <div class="journey-content">
         <div class="journey-year">Uske Baad Ka Har Din</div>
         <div class="journey-title">Tumhari Baatein Dil Mein Likh Li</div>
-        <p class="journey-desc">Jis din tumse baat hoti , woh din khaas ho jaata tha. Tumhari choti-choti baatein — simplicity, nature, smile — sab yaad hai. Dimag mein likha hua hai aaj bhi, mita nahi.</p>
+        <p class="journey-desc">Jis din tumse baat hoti, woh din khaas ho jaata tha. Tumhari choti-choti baatein — simplicity, nature, smile — sab yaad hai. Dimag mein likha hua hai aaj bhi, mita nahi.</p>
       </div>
     </div>
-
     <div class="journey-node">
       <div class="journey-dot-col"><div class="journey-dot">💕</div><div class="journey-line-seg"></div></div>
       <div class="journey-content">
         <div class="journey-year">29 March 2026 · 2 Saal Baad</div>
-        <div class="journey-title">Tum Aaj Bhi Meri Special Ho</div>
-        <p class="journey-desc">Do saal beet gaye. Baatein thodi band si hui, 
-          Lekin Mid me Jab Tumse contact or Tumne Pechna Nhi Sach me Dil se Bura laga tha. Tum hamesha thi aur hamesha rahogi — meri sabse special person. 💕</p>
+        <div class="journey-title">Tum Aaj Bhi </div>
+        <p class="journey-desc">Do saal beet gaye. Baatein thodi band si hui. Lekin mid mein jab tumse contact hua aur tumne pehchana nahi — sach mein dil se bura laga tha. Tum hamesha thi aur hamesha rahogi — meri sabse special person. 💕</p>
       </div>
     </div>
-
   </div>
 </section>
 
-<!-- SEC 5 — SHAYARI -->
+<!-- SEC 5 -->
 <section class="section" id="sec5">
   <div class="shayari-container">
-    <span style="font-size:12px;letter-spacing:5px;text-transform:uppercase;color:rgba(232,160,180,0.6);margin-bottom:8px;display:block">Raanjhanaa dil ko choo raha hai...</span>
-    <div class="journey-song-tag" style="margin-bottom:26px;"><span class="note">♫</span><span>Raanjhanaa — A.R. Rahman</span></div>
-    <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(24px,4.5vw,42px);font-weight:300;margin-bottom:28px;font-style:italic;">Jo Keh Na Saka, Yahan Likha Hai,
-      Tumhare FavouriteSong ke sath 
-    </h2>
-
+    <span style="font-size:12px;letter-spacing:5px;text-transform:uppercase;color:rgba(232,160,180,0.6);margin-bottom:8px;display:block">Tum Tak — dil ko choo raha hai...</span>
+    <div class="journey-song-tag" style="margin-bottom:26px;"><span class="note">♫</span><span>Tum Tak — A.R. Rahman · Raanjhanaa</span></div>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(24px,4.5vw,42px);font-weight:300;margin-bottom:28px;font-style:italic;">Jo Keh Na Saka, Yahan Likha Hai</h2>
     <div class="shayari-card">
       <p class="shayari-text">
         Wo bus ki khidki, wo stop number 70,<br>
@@ -309,21 +415,19 @@ body { background:var(--night); color:#fff; font-family:'Crimson Pro',serif; ove
       </p>
       <p class="shayari-source">— 29 March 2024 ✦</p>
     </div>
-
-    <div class="shayari-card" style="margin-top:16px">
-      <p class="shayari-text">
-        Teri choti choti baaton ko dil mein likha hai,<br>
-        <span>teri smile ka koi jawab nahi mere paas.</span><br>
-        Baat ho ya na ho, tum special rahi ho hamesha —<br>
-        yeh sirf main jaanta hoon, aur ab tum bhi jaan lo.
-      </p>
-      <p class="shayari-source">— hamesha, dil ki gehraai se ✦</p>
-    </div>
-
-    
+   <div class="shayari-card" style="margin-top:16px">
+  <p class="shayari-text">
+    Aaj ka din sirf tumhara hai,<br>
+    <span>khushiyon se bhara har pal tumhara hai.</span><br>
+    Dua hai meri har khushi tumhe milti rahe,<br>
+    kyunki tumhari muskurahat hi sabse pyaari hai.
+  </p>
+  <p class="shayari-source">— Happy Birthday ✦</p>
+</div>
+  </div>
 </section>
 
-<!-- SEC 6 — FINALE -->
+<!-- SEC 6 -->
 <section class="section" id="sec6">
   <canvas class="universe-canvas" id="universeCanvas"></canvas>
   <div class="finale-content">
@@ -335,45 +439,69 @@ body { background:var(--night); color:#fff; font-family:'Crimson Pro',serif; ove
       </div>
     </div>
     <p style="font-size:11px;letter-spacing:3px;color:rgba(255,255,255,0.32);margin-bottom:6px;">envelope pe click karo ↑</p>
-
     <div class="envelope-letter" id="envelopeLetter">
       <p>
         Sejal, yeh letter sirf tumhare liye likha hai.<br><br>
         Tum mere liye bahut khaas ho — 29 March 2024 se lekar aaj tak.
-        Tumhari smile, tumhari simplicity, tumhara nature ,tumhari haar choti chije Jo tumne btai
-        yeh sab cheezein mujhe baar baar tumse milati hain.<br><br>
-        Me Bas tumhe ye sab Btana Chata tha Agar tumhe mene hurt kiyaa ho toh Sorry... be happy<br><br>
+        Tumhari smile, tumhari simplicity, tumhara nature, tumhari haar choti cheez jo tumne batai —
+        yeh sab mujhe baar baar tumse milati hain.<br><br>
+        Main bas tumhe yeh sab batana chahta tha. Agar tumhe maine hurt kiya ho toh Sorry... be happy 🌹<br><br>
         <em style="color:var(--rose)">Happy Birthday Sejal. Tumhara din bahut khaas ho.</em>
       </p>
-      <div class="letter-sign">— Tumhara Lavi 💕</div>
+      <div class="letter-sign">— Lavi </div>
     </div>
-
     <h1 class="finale-title">Tum Ho Meri<br><em>Favourite Universe</em></h1>
-
     <div class="finale-count">
       <div class="count-item"><div class="count-num" id="cnt1">0</div><div class="count-label">Din Mile Hue</div></div>
       <div class="count-item"><div class="count-num">∞</div><div class="count-label">Dil Mein Yaadein</div></div>
       <div class="count-item"><div class="count-num" id="cnt2">0</div><div class="count-label">Baar Muskuraya</div></div>
     </div>
-
     <p class="finale-poem">
       Stop 70 se shuru hua tha yeh safar,<br>
       <em style="color:var(--rose)">aaj bhi woh pal zinda hai dil mein.</em><br>
       Tumhara hona hi meri sabse badi dua hai —<br>
       Happy Birthday, Sejal. 🌸
     </p>
-
     <button class="wishing-btn" onclick="burstCelebration()">🎉 Celebrate Karo! 🎉</button>
   </div>
 </section>
 
 <script>
+let currentAudio = null;
+const musicStatus = document.getElementById('music-status');
+const musicTitle = document.getElementById('music-title');
+
+// Disable cursor on touch devices
+const isMobile = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+if(isMobile){
+  document.getElementById('cursor').style.display='none';
+  document.getElementById('cursorTrail').style.display='none';
+  document.body.style.cursor='auto';
+}
+
+// ===== SPLASH — ek click = autoplay unlock =====
+function startExperience() {
+  // Hide splash
+  const splash = document.getElementById('splash');
+  splash.classList.add('hide');
+  setTimeout(() => { splash.style.display='none'; }, 900);
+
+  // Start Ed Sheeran immediately on user gesture
+  const s1 = document.getElementById('song1');
+  s1.volume = 0.45;
+  s1.play().then(() => {
+    currentAudio = s1;
+    musicTitle.textContent = '♫ Ed Sheeran — Sapphire';
+    musicStatus.classList.add('show');
+    setTimeout(() => musicStatus.classList.remove('show'), 4000);
+  }).catch(err => console.log('Audio error:', err));
+}
+
 // Cursor
-const cursor = document.getElementById('cursor');
-const trail = document.getElementById('cursorTrail');
+const cursor=document.getElementById('cursor'), trail=document.getElementById('cursorTrail');
 document.addEventListener('mousemove', e => {
   cursor.style.left=e.clientX+'px'; cursor.style.top=e.clientY+'px';
-  setTimeout(()=>{ trail.style.left=e.clientX+'px'; trail.style.top=e.clientY+'px'; },80);
+  setTimeout(()=>{ trail.style.left=e.clientX+'px'; trail.style.top=e.clientY+'px'; }, 80);
 });
 
 // Starfield
@@ -390,39 +518,28 @@ function animateStars(){
 }
 initStars(); animateStars();
 
-// FIX: Float items — NO CAKE, rise from bottom with wobble, all staggered so nothing is static
+// Float items
 function createFloatItems(){
   const container=document.getElementById('floatitems-container');
   const items=['🌹','🌸','💐','🌺','🌷','🎁','🎀','💝','💖','❤️','🎊','💗','🌹','🌸','💐','🌺','🌷'];
   for(let i=0;i<38;i++){
-    const el=document.createElement('div');
-    el.className='float-item';
+    const el=document.createElement('div'); el.className='float-item';
     el.textContent=items[i%items.length];
-    const sz=18+Math.random()*22;
-    const riseDur=7+Math.random()*8;
-    const wobDur=1.8+Math.random()*2.2;
-    const delay=Math.random()*14; // staggered 0–14s so they don't all appear at once
-    el.style.cssText=`
-      left:${Math.random()*93}%;
-      font-size:${sz}px;
-      animation:riseUp ${riseDur}s ${delay}s linear infinite,
-                 sideWobble ${wobDur}s ${delay}s ease-in-out infinite;
-    `;
+    const sz=18+Math.random()*22, rd=7+Math.random()*8, wd=1.8+Math.random()*2.2, d=Math.random()*14;
+    el.style.cssText=`left:${Math.random()*93}%;font-size:${sz}px;animation:riseUp ${rd}s ${d}s linear infinite,sideWobble ${wd}s ${d}s ease-in-out infinite;`;
     container.appendChild(el);
   }
 }
 createFloatItems();
 
-// Petals for sec2
+// Petals
 function createPetals(){
   const container=document.getElementById('petals-container');
   const petals=['🌸','🌺','🌷','🌸','🌹'];
   for(let i=0;i<22;i++){
-    const p=document.createElement('div');
-    p.className='petal';
+    const p=document.createElement('div'); p.className='petal';
     p.textContent=petals[Math.floor(Math.random()*petals.length)];
-    p.style.left=Math.random()*100+'%';
-    p.style.fontSize=(13+Math.random()*11)+'px';
+    p.style.left=Math.random()*100+'%'; p.style.fontSize=(13+Math.random()*11)+'px';
     p.style.animation=`petalFloat ${5+Math.random()*6}s ${Math.random()*7}s linear infinite`;
     container.appendChild(p);
   }
@@ -440,28 +557,30 @@ sectionIds.forEach((id,i)=>{
 });
 const getDots=()=>document.querySelectorAll('.ndot');
 
-// Music
-const musicStatus=document.getElementById('music-status'),musicTitle=document.getElementById('music-title');
+// Songs map
 const songs={
-  sec2:{el:document.getElementById('song1'),title:'♫ Ed Sheeran — Sapphire'},
-  sec3:{el:document.getElementById('song2'),title:'♫ Desi Girl'},
-  sec4:{el:document.getElementById('song3'),title:'♫ Bairan'},
-  sec5:{el:document.getElementById('song4'),title:'♫ Tum Tak — A.R. Rahman'},
+  sec2:{el:document.getElementById('song1'), title:'♫ Ed Sheeran — Sapphire'},
+  sec3:{el:document.getElementById('song2'), title:'♫ Desi Girl'},
+  sec4:{el:document.getElementById('song3'), title:'♫ Bairan'},
+  sec5:{el:document.getElementById('song4'), title:'♫ Tum Tak — A.R. Rahman'},
   sec6:null
 };
-let currentAudio=null;
+
 function playForSection(id){
   const song=songs[id];
-  if(!song){if(currentAudio){currentAudio.pause();}musicStatus.classList.remove('show');return;}
-  if(currentAudio&&currentAudio!==song.el){currentAudio.pause();currentAudio.currentTime=0;}
-  currentAudio=song.el; currentAudio.volume=0.45; currentAudio.play().catch(()=>{});
-  musicTitle.textContent=song.title; musicStatus.classList.add('show');
-  setTimeout(()=>musicStatus.classList.remove('show'),4000);
+  if(!song){ if(currentAudio){ currentAudio.pause(); } musicStatus.classList.remove('show'); return; }
+  if(currentAudio && currentAudio!==song.el){ currentAudio.pause(); currentAudio.currentTime=0; }
+  currentAudio=song.el; currentAudio.volume=0.45;
+  currentAudio.play().catch(()=>{});
+  musicTitle.textContent=song.title;
+  musicStatus.classList.add('show');
+  setTimeout(()=>musicStatus.classList.remove('show'), 4000);
 }
+
 const secObserver=new IntersectionObserver(entries=>{
   entries.forEach(e=>{
     if(e.isIntersecting){
-      const id=e.target.id,idx=sectionIds.indexOf(id);
+      const id=e.target.id, idx=sectionIds.indexOf(id);
       getDots().forEach((d,i)=>d.classList.toggle('active',i===idx));
       playForSection(id);
     }
@@ -469,59 +588,57 @@ const secObserver=new IntersectionObserver(entries=>{
 },{threshold:0.55});
 sectionIds.forEach(id=>{const el=document.getElementById(id);if(el)secObserver.observe(el);});
 
-// Journey nodes — slide in from left as you scroll
-const journeyNodes=document.querySelectorAll('.journey-node');
-const nodeObserver=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
-},{threshold:0.15,rootMargin:'0px 0px -30px 0px'});
-journeyNodes.forEach((n,i)=>{n.style.transitionDelay=(i*0.13)+'s';nodeObserver.observe(n);});
+// Journey slide-in
+document.querySelectorAll('.journey-node').forEach((n,i)=>{
+  n.style.transitionDelay=(i*0.13)+'s';
+  new IntersectionObserver(([e])=>{ if(e.isIntersecting) n.classList.add('visible'); },{threshold:0.15}).observe(n);
+});
 
 // Universe canvas
-const uCanvas=document.getElementById('universeCanvas'),uCtx=uCanvas.getContext('2d');
-let uStars=[],uParticles=[];
+const uCanvas=document.getElementById('universeCanvas'), uCtx=uCanvas.getContext('2d');
+let uStars=[], uParticles=[];
 function initUniverse(){
-  uCanvas.width=window.innerWidth;uCanvas.height=window.innerHeight;uStars=[];
+  uCanvas.width=window.innerWidth; uCanvas.height=window.innerHeight; uStars=[];
   for(let i=0;i<200;i++) uStars.push({x:Math.random()*uCanvas.width,y:Math.random()*uCanvas.height,r:Math.random()*2,a:Math.random(),speed:0.004+Math.random()*0.008,color:['255,180,220','212,168,83','200,160,255','255,255,255'][Math.floor(Math.random()*4)]});
 }
 function animateUniverse(){
-  uCtx.fillStyle='rgba(3,1,6,0.15)';uCtx.fillRect(0,0,uCanvas.width,uCanvas.height);
-  uStars.forEach(s=>{s.a+=s.speed;const a=Math.abs(Math.sin(s.a));uCtx.fillStyle=`rgba(${s.color},${a*0.9})`;uCtx.beginPath();uCtx.arc(s.x,s.y,s.r,0,Math.PI*2);uCtx.fill();});
+  uCtx.fillStyle='rgba(3,1,6,0.15)'; uCtx.fillRect(0,0,uCanvas.width,uCanvas.height);
+  uStars.forEach(s=>{ s.a+=s.speed; const a=Math.abs(Math.sin(s.a)); uCtx.fillStyle=`rgba(${s.color},${a*0.9})`; uCtx.beginPath(); uCtx.arc(s.x,s.y,s.r,0,Math.PI*2); uCtx.fill(); });
   uParticles=uParticles.filter(p=>p.life>0);
-  uParticles.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=0.05;p.life-=2;uCtx.globalAlpha=p.life/100;uCtx.fillStyle=p.color;uCtx.beginPath();uCtx.arc(p.x,p.y,p.r,0,Math.PI*2);uCtx.fill();uCtx.globalAlpha=1;});
+  uParticles.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; p.vy+=0.05; p.life-=2; uCtx.globalAlpha=p.life/100; uCtx.fillStyle=p.color; uCtx.beginPath(); uCtx.arc(p.x,p.y,p.r,0,Math.PI*2); uCtx.fill(); uCtx.globalAlpha=1; });
   requestAnimationFrame(animateUniverse);
 }
 initUniverse(); animateUniverse();
 
-// Envelope — rose opens, letter slides in below
+// Envelope
 function openEnvelope(){
-  const env=document.getElementById('envelope'),letter=document.getElementById('envelopeLetter');
+  const env=document.getElementById('envelope'), letter=document.getElementById('envelopeLetter');
   env.classList.toggle('open');
-  letter.classList.toggle('show',env.classList.contains('open'));
+  letter.classList.toggle('show', env.classList.contains('open'));
 }
 
 // Count up
 function countUp(elId,target,dur){
-  const el=document.getElementById(elId),step=target/(dur/16);let cur=0;
-  const t=setInterval(()=>{cur+=step;if(cur>=target){el.textContent=target;clearInterval(t);}else{el.textContent=Math.floor(cur);}},16);
+  const el=document.getElementById(elId), step=target/(dur/16); let cur=0;
+  const t=setInterval(()=>{ cur+=step; if(cur>=target){el.textContent=target;clearInterval(t);}else{el.textContent=Math.floor(cur);} },16);
 }
-const finaleObs=new IntersectionObserver(entries=>{if(entries[0].isIntersecting){countUp('cnt1',730,2000);countUp('cnt2',1000,2200);}},{threshold:0.4});
-finaleObs.observe(document.getElementById('sec6'));
+new IntersectionObserver(([e])=>{ if(e.isIntersecting){ countUp('cnt1',730,2000); countUp('cnt2',1000,2200); } },{threshold:0.4}).observe(document.getElementById('sec6'));
 
-// Celebration burst
+// Celebration
 function burstCelebration(){
   const colors=['#e8a0b4','#c084fc','#f5d0dd','#d4a853','#f9a8d4','#a78bfa','#fde68a'];
   for(let i=0;i<100;i++){
     setTimeout(()=>{
-      const c=document.createElement('div');c.className='confetti-piece';
+      const c=document.createElement('div'); c.className='confetti-piece';
       const sz=6+Math.random()*10;
       c.style.cssText=`left:${Math.random()*100}vw;top:-10px;width:${sz}px;height:${sz}px;background:${colors[Math.floor(Math.random()*colors.length)]};border-radius:${Math.random()>0.5?'50%':'2px'};animation-duration:${2+Math.random()*3}s;animation-delay:${Math.random()*0.8}s;`;
-      document.body.appendChild(c);setTimeout(()=>c.remove(),5000);
+      document.body.appendChild(c); setTimeout(()=>c.remove(),5000);
     },i*20);
   }
   for(let i=0;i<80;i++) uParticles.push({x:Math.random()*uCanvas.width,y:Math.random()*uCanvas.height*0.5,vx:(Math.random()-0.5)*4,vy:(Math.random()-0.5)*4,r:2+Math.random()*4,color:colors[Math.floor(Math.random()*colors.length)],life:100});
 }
 
-window.addEventListener('resize',()=>{initStars();sfCanvas.width=window.innerWidth;sfCanvas.height=window.innerHeight;initUniverse();});
+window.addEventListener('resize',()=>{ initStars(); sfCanvas.width=window.innerWidth; sfCanvas.height=window.innerHeight; initUniverse(); });
 </script>
 </body>
 </html>
